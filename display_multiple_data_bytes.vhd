@@ -1,10 +1,10 @@
 ----------------------------------------------------------------------------------
--- Company: 
+-- Company:
 -- Engineer: 
 -- 
--- Create Date:    16:17:13 01/25/2017 
+-- Create Date:    15:44:57 01/25/2017 
 -- Design Name: 
--- Module Name:    read_multiple_data_bytes - Behavioral 
+-- Module Name:    display_multiple_data_bytes - Behavioral 
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 
@@ -29,26 +29,26 @@ use IEEE.STD_LOGIC_1164.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity read_multiple_data_bytes is
+entity display_multiple_data_bytes is
     Port ( clk : in  STD_LOGIC;
-           data_in : in  STD_LOGIC_VECTOR (7 downto 0);
+           data_in : in  STD_LOGIC_VECTOR (63 downto 0);
 			  reset : IN  std_logic;
            next_data : in  STD_LOGIC;
-           data_read : out  STD_LOGIC_VECTOR (63 downto 0));
-end read_multiple_data_bytes;
+           data_out : out  STD_LOGIC_VECTOR (7 downto 0));
+end display_multiple_data_bytes;
 
-architecture Behavioral of read_multiple_data_bytes is
-
+architecture Behavioral of display_multiple_data_bytes is
+	
 	begin
 	process(next_data, clk,reset)
 		variable counter :integer := 0;
 	begin
 		if (reset='1') then
 			counter:=0;
-			data_read<=(others =>'0');
+			data_out<=(others =>'0');
 		else
 			if (clk'event and clk='1' and next_data = '1' and (counter < 63)) then
-				data_read((7+counter) downto counter) <= data_in;
+				data_out <= data_in((7+counter) downto counter);
 				counter := counter + 8;
 			end if;
 		end if;
